@@ -13,7 +13,8 @@
   "license": "MIT",
   "dependencies": {
     "react": "~0.13.3",
-    "babel-loader": "5.0.0"
+    "babel-loader": "5.0.0",
+    "react-router": "~0.13.3"
   },
   "devDependencies": {
     "style-loader": "~0.12.2",

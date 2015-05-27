@@ -3,7 +3,7 @@ var ExtractTextPlugin  = require("extract-text-webpack-plugin");
 
 module.exports = {
     context: Path.join(__dirname, "js"),
-    entry: ['webpack/hot/dev-server', "./main.jsx"],
+    entry: ['webpack/hot/dev-server', "./home.jsx"],
     output: {
         path: Path.join(__dirname, "build"),
         filename: "bundle.js",
@@ -21,7 +21,7 @@ module.exports = {
     ],
     resolve: {
         root: __dirname,
-        extensions: ["", ".webpack.js", ".web.js", ".js", ".less"]
+        extensions: ["", ".webpack.js", ".web.js", ".js", ".less", ".jsx"]
     },
     devServer: {
         contentBase: __dirname,

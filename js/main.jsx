@@ -1,7 +1,20 @@
 import React from "react";
 require("../css/main.less");
 
-class CommentBox extends React.Component {
+class ImageItem extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+	
+	render() {
+		return (<div className="imageItem">
+			<img src={this.props.url}/>
+			<p style={{textAlign: "center", color: "red", fontSize: "15px"}}>{this.props.desc}</p>
+		</div>);
+	}
+}
+
+export default class CommentBox extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -35,18 +48,3 @@ class CommentBox extends React.Component {
 		</div>);
 	}
 }
-
-class ImageItem extends React.Component {
-	getInitialState() {
-		return {};
-	}
-	render() {
-		return (<div className="imageItem">
-			<img src={this.props.url}/>
-			<p style={{textAlign: "center", color: "red", fontSize: "15px"}}>{this.props.desc}</p>
-		</div>);
-	}
-}
-
-
-React.render(<CommentBox />, document.getElementById("content"));
