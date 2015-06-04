@@ -1,5 +1,8 @@
 import React from "react";
 require("../css/main.less");
+import Bootstrap from "react-bootstrap";
+
+let Button = Bootstrap.Button;
 
 class ImageItem extends React.Component {
 	constructor(props) {
@@ -44,7 +47,7 @@ export default class CommentBox extends React.Component {
 		});
 		return (<div>
 			{items}
-			<button onClick={this.handleLoadMore}>show more</button>
+			<Button bsStyle='primary' onClick={this.handleLoadMore}>show more</Button>
 		</div>);
 	}
 }
