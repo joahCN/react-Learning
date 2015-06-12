@@ -1,8 +1,12 @@
 import React from "react";
-require("../css/main.less");
+require("../../css/main.less");
 import Bootstrap from "react-bootstrap";
+import ImageStore from "../stores/ImageStore.js";
+import ImageActions from "../actions/ImageActions.js";
 
 let Button = Bootstrap.Button;
+let Carousel = Bootstrap.Carousel;
+let CarouselItem = Bootstrap.CarouselItem;
 
 class ImageItem extends React.Component {
 	constructor(props) {
@@ -21,27 +25,36 @@ export default class CommentBox extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			imags: [
-				{url: "http://placehold.it/150x150", desc: "hello world"},
-				{url: "http://placehold.it/150x150", desc: "It's rainy"},
-				{url: "http://placehold.it/150x150", desc: "weekend is comming"},
-				{url: "http://placehold.it/150x150", desc: "hot deployment"}
-			]
+			imags: []
 		};
 		this.handleLoadMore = () =>  {
-			var additionals = [
-				{url: "http://placehold.it/150x150", desc: "additional"},
-				{url: "http://placehold.it/150x150", desc: "additional"}
-			];
-			this.setState({imags: this.state.imags.concat(additionals)});
+			ImageActions.loadMoreImages();
 		}
 	}
-
+	
 	componentDidMount() {
-		console.log("component mount");
+		ImageStore.onChange((function() {
+			this.setState({imags: ImageStore.getImages()});
+		}).bind(this));
+		
+		ImageActions.load();
+		
 	}
 	
 	render() {
+		var items = this.state.imags.map(function(imgData) {
+				return (<CarouselItem>
+					<img src={imgData.url} />
+				</CarouselItem>); 
+			});
+		return (
+			<Carousel>
+				{items}
+			</Carousel>
+		);
+	}
+	
+	render1() {
 		var items = this.state.imags.map(function(img) {
 			return <ImageItem {...img} /> 
 		});

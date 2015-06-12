@@ -1,4 +1,5 @@
 @time: .3s;
+@pageTranslate: 1s;
 @easing: ease-in-out;
 .page-transition-enter {
   transition: opacity @time @easing;
@@ -15,4 +16,30 @@
 }
 .page-transition-leave.page-transition-leave-active {
   opacity: 0;
+}
+.page-transform-enter {
+  position: absolute;
+  width: 100%;
+  right: 0;
+  opacity: 0;
+  transition: @pageTranslate @easing;
+  transform: translateX(100%);
+}
+.page-transform-enter.page-transform-enter-active {
+  left: 0;
+  right: auto;
+  opacity: 1;
+  transform: translateX(0);
+}
+.page-transform-leave {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  opacity: 1;
+  transition: @pageTranslate @easing;
+}
+.page-transform-leave.page-transform-leave-active {
+  left: 0;
+  opacity: 0;
+  transform: translateX(-100%);
 }
