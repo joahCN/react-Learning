@@ -4,24 +4,12 @@ import Bootstrap from "react-bootstrap";
 import ImageStore from "../stores/ImageStore.js";
 import ImageActions from "../actions/ImageActions.js";
 
-let Button = Bootstrap.Button;
+let {Grid, Row, Col, Input, Button} = Bootstrap;
+
 let Carousel = Bootstrap.Carousel;
 let CarouselItem = Bootstrap.CarouselItem;
 
-class ImageItem extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-	
-	render() {
-		return (<div className="imageItem">
-			<img src={this.props.url}/>
-			<p style={{textAlign: "center", color: "red", fontSize: "15px"}}>{this.props.desc}</p>
-		</div>);
-	}
-}
-
-export default class CommentBox extends React.Component {
+export default class NavSlider extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -48,19 +36,16 @@ export default class CommentBox extends React.Component {
 				</CarouselItem>); 
 			});
 		return (
-			<Carousel>
-				{items}
-			</Carousel>
+			<Grid className="navSlider">
+				<Row>
+					<Col md={12}>
+						<Carousel className="carousel">
+							{items}
+						</Carousel>
+					</Col>
+				</Row>
+			</Grid>
 		);
 	}
 	
-	render1() {
-		var items = this.state.imags.map(function(img) {
-			return <ImageItem {...img} /> 
-		});
-		return (<div>
-			{items}
-			<Button bsStyle='primary' onClick={this.handleLoadMore}>show more</Button>
-		</div>);
-	}
 }

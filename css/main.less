@@ -2,7 +2,62 @@
 	display: inline-block;
 	margin-right: 10px;
 }
-.container {
+.content {
 	width: 100%;
 	position: relative;
+}
+
+.header {
+	height: 90px;
+	max-width: 1170px;
+	margin: 0 auto;
+	box-sizing: border-box;
+	.logo {
+		height: 90px;
+		background: url("http://placehold.it/150x80") no-repeat left center;
+		background-size: 150px 80px;
+	}
+	.searchArea, .accountArea {
+		margin-top: 20px;
+		
+	}
+	.accountArea {
+		text-align: right;	
+		button {
+			margin-left: 10px;
+		}
+	}
+	
+	
+}
+.navSlider {
+	max-width: 1170px;
+	margin: 0 auto;
+}
+.categoryBar {
+	margin-top: 20px;
+	border-bottom: 1px solid lightgray;
+	.categoryHeader {
+		font-size: 16px;
+		font-weight: bold;
+	}
+	.categoryItem {
+		margin: 0 10px;
+	}
+}
+.itemList {
+	margin-top: 10px;
+}
+.footer {
+	height: 90px;
+	margin: 0 auto;
+	background-color: darkgray;
+	span {
+		margin: 0 10px;
+		color: white;
+	}
+	.container {
+		text-align: center;
+		padding-top: 20px;
+	}
 }

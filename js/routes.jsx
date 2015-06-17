@@ -2,15 +2,16 @@ import React from "react/addons";
 import Router from "react-router";
 import APP from "./App.jsx";
 import {About, Company} from "./components/About.jsx";
-import CommentBox from "./components/CommentBox.jsx";
+import NavSlider from "./components/NavSlider.jsx";
 import NotFound from "./components/NotFound.jsx";
+import Index from "./components/Index.jsx";
 
 var {Route, RouteHandler, HistoryLocation, HashLocation,Link, DefaultRoute, NotFoundRoute, State} = Router;
 
 const routes = (
 	<Route handler={APP}>
-		<DefaultRoute handler={About}/>
-		<Route name="main" handler={CommentBox}></Route>
+		<DefaultRoute handler={Index}/>
+		<Route name="main" handler={Index}></Route>
 		<Route path="about" name="about" handler={About}>
 			<Route name="company" handler={Company}/>
 		</Route>
