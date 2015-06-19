@@ -2,10 +2,31 @@ import React from "react";
 import ItemCategory from "./ItemCategory.jsx";
 import ItemList from "./ItemList.jsx";
 import Bootstrap from "react-bootstrap";
+import ItemStore from "../stores/ItemStore.js";
+import ItemAction from "../actions/ItemActions.js";
 
 let {Grid, Row, Col, Input, Button} = Bootstrap;
 
 export default class ProductDisplay extends React.Component {
+	
+	constructor(props) {
+		super(props);
+		this.state = {
+			items: {}
+		};
+	}
+	
+	componentWillMount() {
+		ItemStore.addListener("loaded", (function() {
+			let items = ItemStore.getItems();
+			this.setState({items: items});
+		}).bind(this));
+	}
+	
+	componentDidMount() {
+		ItemAction.loadLatestItem();
+	}
+	
 	render() {
 		let category = {
 			header: "Daily Products",
@@ -21,32 +42,7 @@ export default class ProductDisplay extends React.Component {
 				}
 			]
 		};
-		let items = [
-			{
-				img: "http://placehold.it/350x200",
-				desc: "goods"
-			},
-			{
-				img: "http://placehold.it/350x200",
-				desc: "goods"
-			},
-			{
-				img: "http://placehold.it/350x200",
-				desc: "goods"
-			},
-			{
-				img: "http://placehold.it/350x200",
-				desc: "goods"
-			},
-			{
-				img: "http://placehold.it/350x200",
-				desc: "goods"
-			},
-			{
-				img: "http://placehold.it/350x200",
-				desc: "goods"
-			}
-		];
+		let items = this.state.items;
 		return (
 			<Grid>
 				<Row>

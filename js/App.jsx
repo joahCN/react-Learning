@@ -17,7 +17,7 @@ export default class APP extends React.Component{
 	render() {
 		var name = this.context.router.getCurrentPath();
 		var key = name.split('/')[1] || 'root';
-		return (<div>
+		return (<div className="page">
 			<Header></Header>
 			<NavBar/>
 			<div className="content">
