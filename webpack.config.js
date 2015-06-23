@@ -7,7 +7,7 @@ module.exports = {
     output: {
         path: Path.join(__dirname, "build"),
         filename: "bundle.js",
-        publicPath: "/build/"
+        publicPath: "http://localhost:8080/build/"
     },
     module: {
         loaders: [

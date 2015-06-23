@@ -2,7 +2,7 @@ import request from "superagent";
 import _ from "underscore";
 import Cache from "./Cache.js";
 
-require("../mock/Network.js");
+// require("../mock/Network.js");
 
 
 
@@ -52,8 +52,8 @@ module.exports = {
 				_.isFunction(onError) && onError(error);
 			} else {
 				let formatedUrl = getProxyUrl();
-				apiCache.set(formatedUrl, res, duration);
-				onSuccess(res);
+				apiCache.set(formatedUrl, res.body, duration);
+				onSuccess(res.body);
 			}
 		}
 	}
