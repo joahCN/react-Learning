@@ -8,7 +8,7 @@ export default class Header extends React.Component {
 	render() {
 		
 		return (
-			<Grid className="header">
+			<Grid className="header hidden-xs">
 				<Row>
 					<Col md={3}>
 						<div className="logo"></div>

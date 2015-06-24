@@ -10,9 +10,28 @@ html, body {
 	position: relative;
 	padding-bottom: 90px;
 }
+.basePage {
+	height: 100%;
+}
 .page {
 	position: relative;
 	min-height: 100%;
+	left: 0;
+	transition: left ease-out .5s;
+}
+.sideNavPage {
+	position: absolute;
+	left: -100px;
+	top: 0;
+	width: 100px;
+	height: 100%;
+	transition: left ease-out .5s;
+}
+.pageMove {
+	left: 100px;
+}
+.sideNavPageMove {
+	left: 0;
 }
 
 .header {
@@ -78,5 +97,29 @@ html, body {
 	}
 	.itemSections {
 		margin-top: 10px;
+	}
+}
+.phoneNav {
+	display: table;
+	position: relative;
+	text-align: center;
+	width: 100%;
+	vertical-align: middle;
+	.leftButton, .titleBar, .rightButton {
+		display: table-cell;
+		height: 45px;
+		vertical-align: middle;
+	}
+	.leftButton {
+		width: 20%;	
+		text-align: left;
+		padding-left: 15px;
+	}
+	.titleBar {
+		width: 60%;
+		text-align: center;
+	}
+	.rightButton {
+		width: 20%;
 	}
 }
