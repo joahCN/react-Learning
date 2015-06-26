@@ -1,22 +1,42 @@
 import React from "react";
 import Bootstrap from "react-bootstrap";
 import Router from "react-router";
+import NavBarStore from "../stores/NavBarStore.js";
+import NavBarAction from "../actions/NavBarActions.js";
 
 let {Grid, Row, Col, Navbar, Nav, NavItem, Button, Glyphicon} = Bootstrap;
 let {RouteHandler, Link} = Router;
 
 export default class NavBar extends React.Component {
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			barButtons: {
+				left: (<Button onClick={NavBarAction.SlidePage}><Glyphicon glyph='list' /></Button>),
+				center: "Group Design",
+				right: ""
+			}
+		};
+		this.updateNavBar = () => {
+			let buttons = NavBarStore.getNavBarButtons();
+			let state = this.state;
+			state.barButtons = buttons;
+			this.setState(state);
+		}
+	}
+
 	componentDidMount() {
-		
+		NavBarStore.addListener("update", this.updateNavBar);
 	}
 	
-	navBarClickHandle() {
-		let navBarClick = this.props.navBarClick;
-		navBarClick();
+	componentWillUnmount() {
+		NavBarStore.removeEvent("update", this.updateNavBar);
 	}
+	
 	
 	render() {
+		let barButtons = this.state.barButtons;
 		return (
 			<div>
 				<Navbar className="hidden-xs" brand={<a href="#">Group Design</a>}>
@@ -27,12 +47,13 @@ export default class NavBar extends React.Component {
 				</Navbar>
 				<div className="phoneNav visible-xs-table navbar navbar-default">
 					<div className="leftButton">
-						<Button onClick={this.navBarClickHandle.bind(this)}><Glyphicon glyph='list' /></Button>	
+						{barButtons.left}
 					</div>
 					<div className="titleBar">
-						<span>Group Design</span>
+						<span>{barButtons.center}</span>
 					</div>
 					<div className="rightButton">
+						{barButtons.right}
 					</div>
 					
 				</div>	

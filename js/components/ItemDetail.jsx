@@ -1,9 +1,11 @@
 import React from "react";
+import Router from "react-router";
 import Bootstrap from "react-bootstrap";
 import ItemStore from "../stores/ItemStore.js";
 import ItemAction from "../actions/ItemActions.js";
+import NavBarAction from "../actions/NavBarActions.js";
 
-let {Grid, Row, Col, Input, Button, TabbedArea, TabPane} = Bootstrap;
+let {Grid, Row, Col, Input, Button, TabbedArea, TabPane, Glyphicon} = Bootstrap;
 
 export default class ItemDetail extends React.Component {
 	
@@ -14,16 +16,28 @@ export default class ItemDetail extends React.Component {
 		this.state = {
 			key: 1
 		};
-	}
-	
-	componentWillMount() {
-		ItemStore.addListener("loadItem", (function() {
+		
+		this.itemLoadedHandler = () => {
 			let item = ItemStore.getItem(this.props.params.id);
 			this.setState({
 				item: item
 			});
-		}).bind(this));
+		}
+	}
+	
+	componentDidMount() {
+		ItemStore.addListener("loadItem", this.itemLoadedHandler);
 		ItemAction.loadItem(this.props.params.id);
+		
+		NavBarAction.updateNavBar({
+				left: (<Button onClick={NavBarAction.goBack}><Glyphicon glyph='chevron-left' /></Button>),
+				center: "item detail",
+				right: ""
+			});
+	}
+	
+	componentWillUnmount() {
+		ItemStore.removeEvent("loadItem", this.itemLoadedHandler);
 	}
 	
 	handleSelect(key) {
@@ -60,3 +74,7 @@ export default class ItemDetail extends React.Component {
 		);
 	}
 }
+
+ItemDetail.contextTypes = {
+  router: React.PropTypes.func.isRequired
+};

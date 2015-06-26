@@ -2,7 +2,7 @@ import React from "react";
 import Bootstrap from "react-bootstrap";
 import Item from "./Item.jsx";
 
-let {Grid, Row, Col, Input, Button} = Bootstrap;
+let {Grid, Row, Col, Input, Button, Glyphicon} = Bootstrap;
 
 export default class ItemList extends React.Component {
 

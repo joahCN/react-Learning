@@ -23,6 +23,14 @@ server.route([
     },
     {
         method: 'GET',
+        path: '/main',
+        handler: function (request, reply) {
+            // reply("hello world");
+            return reply.file("./index.html");
+        }
+    },
+    {
+        method: 'GET',
         path: '/build/{file}',
         handler: function(request, reply) {
             var fileName = request.params.file;

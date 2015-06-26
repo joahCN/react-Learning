@@ -14,7 +14,7 @@ export default class Item extends React.Component {
 		        <h3>{item.desc}</h3>
 		        <p>Description</p>
 		        <p>
-		          <Button bsStyle='primary'><Link to="itemDetail" params={{id: item.id}}>Buy</Link></Button>&nbsp;
+		          <Link to="itemDetail" params={{id: item.id}}><Button bsStyle='primary'>{item.title}</Button></Link>&nbsp;
 		        </p>
 		    </Thumbnail>
 		);

@@ -1,5 +1,5 @@
 @time: .3s;
-@pageTranslate: 1s;
+@pageTranslate: .5s;
 @easing: ease-in-out;
 .page-transition-enter {
   transition: opacity @time @easing;
@@ -42,4 +42,31 @@
   left: 0;
   opacity: 0;
   transform: translateX(-100%);
+}
+
+.page-transform-back-enter {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  opacity: 0;
+  transition: @pageTranslate @easing;
+  transform: translateX(-100%);
+}
+.page-transform-back-enter.page-transform-back-enter-active {
+  right: 0;
+  left: auto;
+  opacity: 1;
+  transform: translateX(0);
+}
+.page-transform-back-leave {
+  position: absolute;
+  width: 100%;
+  right: 0;
+  opacity: 1;
+  transition: @pageTranslate @easing;
+}
+.page-transform-back-leave.page-transform-back-leave-active {
+  left: 0;
+  opacity: 0;
+  transform: translateX(100%);
 }

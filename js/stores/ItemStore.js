@@ -51,6 +51,9 @@ assign(ItemStore, EventEmitter.prototype, {
 	},
 	addListener: function(event,changeListener) {
 		this.on(event, changeListener);
+	},
+	removeEvent: function(event, listener) {
+		this.removeListener(event, listener);
 	}
 });
 
