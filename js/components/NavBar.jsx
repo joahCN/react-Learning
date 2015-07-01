@@ -29,12 +29,12 @@ export default class NavBar extends React.Component {
 	componentDidMount() {
 		NavBarStore.addListener("update", this.updateNavBar);
 	}
-	
+
 	componentWillUnmount() {
 		NavBarStore.removeEvent("update", this.updateNavBar);
 	}
-	
-	
+
+
 	render() {
 		let barButtons = this.state.barButtons;
 		return (
@@ -45,7 +45,7 @@ export default class NavBar extends React.Component {
 				      	<li><Link to="about">about</Link></li>
 				    </Nav>
 				</Navbar>
-				<div className="phoneNav visible-xs-table navbar navbar-default">
+				<div className="phoneNav visible-xs-block navbar navbar-default">
 					<div className="leftButton">
 						{barButtons.left}
 					</div>
@@ -55,10 +55,10 @@ export default class NavBar extends React.Component {
 					<div className="rightButton">
 						{barButtons.right}
 					</div>
-					
-				</div>	
+
+				</div>
 			</div>
-			
+
 		);
 	}
 }

@@ -2,7 +2,11 @@ var Hapi = require('hapi');
 var datas = require("./mockData.js");
 
 var server = new Hapi.Server();
-server.connection({ port: 8888 });
+server.connection({
+    port: 8888,
+    host: "localhost"
+  }
+);
 
 server.route([
     {
