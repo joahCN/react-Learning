@@ -3,37 +3,36 @@ require("../../css/main.less");
 import Bootstrap from "react-bootstrap";
 import ImageStore from "../stores/ImageStore.js";
 import ImageActions from "../actions/ImageActions.js";
+import BaseComponent from "../core/BaseComponent.js";
+import AppDispatcher from "../dispatcher/AppDispatcher.js";
 
 let {Grid, Row, Col, Input, Button} = Bootstrap;
 
 let Carousel = Bootstrap.Carousel;
 let CarouselItem = Bootstrap.CarouselItem;
 
-export default class NavSlider extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
+export default class NavSlider extends BaseComponent {
+	constructor() {
+		super({
 			imags: []
-		};
+		});
 		this.handleLoadMore = () =>  {
-			ImageActions.loadMoreImages();
+			AppDispatcher.pub(ImageStore.events.fetchMoreImages);
 		}
 	}
-	
+
 	componentDidMount() {
-		ImageStore.onChange((function() {
+		this.addEvent(ImageStore, ImageStore.events.change, (function() {
 			this.setState({imags: ImageStore.getImages()});
 		}).bind(this));
-		
-		ImageActions.load();
-		
+		AppDispatcher.pub(ImageStore.events.fetchInitImages);
 	}
-	
+
 	render() {
 		var items = this.state.imags.map(function(imgData) {
 				return (<CarouselItem>
 					<img src={imgData.url} />
-				</CarouselItem>); 
+				</CarouselItem>);
 			});
 		return (
 			<Grid className="navSlider">
@@ -47,5 +46,5 @@ export default class NavSlider extends React.Component {
 			</Grid>
 		);
 	}
-	
+
 }

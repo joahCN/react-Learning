@@ -4,51 +4,62 @@ import Header from "./components/Header.jsx";
 import NavBar from "./components/NavBar.jsx";
 import Footer from "./components/Footer.jsx";
 import NavBarStore from "./stores/NavBarStore.js";
+import BaseComponent from "./core/BaseComponent.js";
+
 require("../css/animate.less");
 require("bootstrap/dist/css/bootstrap.css");
 
 var {RouteHandler, Link} = Router;
 var TransitionGroup = React.addons.CSSTransitionGroup;
 
-export default class APP extends React.Component{
-	constructor(params) {
-		super(params);
-		this.state = {
+export default class APP extends BaseComponent{
+	constructor() {
+		let initalState = {
 			className: {
 				mainPage: "page",
 				sideBarPage: "sideNavPage",
-				transition: "page-transform"	
+				transition: "page-transform"
 			}
 		};
+		super(initalState);
+
+		this.direction = ">";
+
 		this.slidePageListener = () => {
 			console.log("remove slide");
 			this.triggleNavBar();
 		};
 		this.goBack = () => {
-			console.log("remove back");
-			this.state.className.transition = "page-transform-back";
+			this.direction = "<";
 			this.context.router.goBack();
 		}
 	}
-	
+
 	componentDidMount() {
-		NavBarStore.addListener(NavBarStore.events.slidePage, this.slidePageListener);
-		
-		NavBarStore.addListener(NavBarStore.events.back, this.goBack);
+		super.componentDidMount();
+		this.addEvent(NavBarStore, NavBarStore.events.slidePage, this.slidePageListener);
+		this.addEvent(NavBarStore, NavBarStore.events.back, this.goBack);
 	}
-	
+
 	componentDidUpdate() {
-		this.state.className.transition = "page-transform";
+		this.direction = ">";
 	}
-	
+
 	componentWillUnmount() {
-		NavBarStore.removeEvent(NavBarStore.events.slidePage, this.slidePageListener);
-		NavBarStore.removeEvent(NavBarStore.events.back, this.goBack);
+		super.componentWillUnmount();
 	}
-	
+
+	getTranslationClass() {
+		if(this.direction == ">") {
+			return "page-transform";
+		} else {
+			return "page-transform-back";
+		}
+	}
+
 	triggleNavBar() {
 		let state = this.state.className;
-		
+
 		function triggleState(stateName, value) {
 			let stateValue;
 			if(state[stateName].indexOf(value) > -1) {
@@ -58,29 +69,26 @@ export default class APP extends React.Component{
 			}
 			state[stateName] = stateValue;
 		}
-		
+
 		triggleState("mainPage", "pageMove");
 		triggleState("sideBarPage", "sideNavPageMove");
-		
+
 		this.setState(state);
-		
-	}
-	
-	goBack() {
-		
+
 	}
 
 	render() {
 		var name = this.context.router.getCurrentPath();
 		var key = name.split('/')[1] || 'root';
 		var initClassName = this.state.className;
+		var transitonCls = this.getTranslationClass();
 		return (
 			<div className="basePage">
 				<div className={initClassName.mainPage}>
 					<Header></Header>
 					<NavBar/>
 					<div className="content">
-						<TransitionGroup component="div" transitionName={initClassName.transition}>
+						<TransitionGroup component="div" transitionName={transitonCls}>
 				          <RouteHandler key={key} />
 				        </TransitionGroup>
 					</div>
@@ -97,6 +105,3 @@ export default class APP extends React.Component{
 APP.contextTypes = {
   router: React.PropTypes.func.isRequired
 };
-
-
-

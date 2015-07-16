@@ -2,52 +2,98 @@ import AppDispatcher from "../dispatcher/AppDispatcher.js";
 import {EventEmitter} from "events";
 import DataProvider from "../network/DataProvider.js";
 import assign from "object-assign";
+import BaseStore from "../core/BaseStore.js";
 
-let ImageStore = {};
 let _images = [];
 
-assign(ImageStore, EventEmitter.prototype, {
-	loadInitialImages: function() {
+class ImageStore extends BaseStore {
+	constructor() {
+		super();
+		this.addEvents([
+			"change",
+			"fetchInitImages",
+			"fetchMoreImages"
+		]);
+	}
+	loadInitialImages() {
 		DataProvider.getData({
 			url: "/images",
-			onSuccess: function(res) {
+			onSuccess: (function(res) {
 				let images = res.datas;
 				_images.push(...images);
-				ImageStore.emitChange();
-			}
+				this.fireListener(this.events.change);
+			}).bind(this)
 		});
-	},
-	loadMoreImages: function() {
+	}
+	loadMoreImages() {
 		DataProvider.getData({
 			url: "/moreImages",
-			onSuccess: function(res) {
+			onSuccess: (function(res) {
 				let images = res.datas;
 				_images.push(...images);
-				ImageStore.emitChange();
-			}
+				this.fireListener(this.events.change);
+				// ImageStore.emitChange();
+			}).bind(this)
 		});
-	},
-	getImages: function() {
+	}
+	getImages() {
 		return 	_images;
+	}
+}
+
+let imageStore = new ImageStore();
+
+AppDispatcher.sub({
+	"fetchInitImages" : function() {
+		imageStore.loadInitialImages();
 	},
-	emitChange : function(){
-		this.emit("change");
-	},
-	onChange: function(changeListener) {
-		this.on("change", changeListener);
+	"fetchMoreImages" : function() {
+		imageStore.loadMoreImages();
 	}
 });
 
-AppDispatcher.register(function(action) {
-	switch(action.actionType) {
-		case "fetchInitImages" : 
-			ImageStore.loadInitialImages();
-			break;
-		case "fetchMoreImages" :
-			ImageStore.loadMoreImages();
-			break;
-		
-	}
-});
+// assign(ImageStore, EventEmitter.prototype, {
+// 	loadInitialImages: function() {
+// 		DataProvider.getData({
+// 			url: "/images",
+// 			onSuccess: function(res) {
+// 				let images = res.datas;
+// 				_images.push(...images);
+// 				ImageStore.emitChange();
+// 			}
+// 		});
+// 	},
+// 	loadMoreImages: function() {
+// 		DataProvider.getData({
+// 			url: "/moreImages",
+// 			onSuccess: function(res) {
+// 				let images = res.datas;
+// 				_images.push(...images);
+// 				ImageStore.emitChange();
+// 			}
+// 		});
+// 	},
+// 	getImages: function() {
+// 		return 	_images;
+// 	},
+// 	emitChange : function(){
+// 		this.emit("change");
+// 	},
+// 	onChange: function(changeListener) {
+// 		this.on("change", changeListener);
+// 	}
+// });
 
-export default ImageStore;
+// AppDispatcher.register(function(action) {
+// 	switch(action.actionType) {
+// 		case "fetchInitImages" :
+// 			ImageStore.loadInitialImages();
+// 			break;
+// 		case "fetchMoreImages" :
+// 			ImageStore.loadMoreImages();
+// 			break;
+//
+// 	}
+// });
+
+export default imageStore;

@@ -3,21 +3,25 @@ import Bootstrap from "react-bootstrap";
 import Router from "react-router";
 import NavBarStore from "../stores/NavBarStore.js";
 import NavBarAction from "../actions/NavBarActions.js";
+import BaseComponent from "../core/BaseComponent.js";
+import AppDispatcher from "../dispatcher/AppDispatcher.js";
 
 let {Grid, Row, Col, Navbar, Nav, NavItem, Button, Glyphicon} = Bootstrap;
 let {RouteHandler, Link} = Router;
 
-export default class NavBar extends React.Component {
+export default class NavBar extends BaseComponent {
 
-	constructor(props) {
-		super(props);
-		this.state = {
+	constructor() {
+
+		let state = {
 			barButtons: {
-				left: (<Button onClick={NavBarAction.SlidePage}><Glyphicon glyph='list' /></Button>),
+				left: (<Button onClick={() => AppDispatcher.pub(NavBarStore.events.slidPage)}><Glyphicon glyph='list' /></Button>),
 				center: "Group Design",
 				right: ""
 			}
 		};
+		super(state);
+
 		this.updateNavBar = () => {
 			let buttons = NavBarStore.getNavBarButtons();
 			let state = this.state;
@@ -27,11 +31,12 @@ export default class NavBar extends React.Component {
 	}
 
 	componentDidMount() {
-		NavBarStore.addListener("update", this.updateNavBar);
+		super.componentDidMount();
+		this.addEvent(NavBarStore, "update", this.updateNavBar);
 	}
 
 	componentWillUnmount() {
-		NavBarStore.removeEvent("update", this.updateNavBar);
+		super.componentWillUnmount();
 	}
 
 
