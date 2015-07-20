@@ -1,5 +1,6 @@
 var Path = require("path");
 var ExtractTextPlugin  = require("extract-text-webpack-plugin");
+var autoprefixer = require('autoprefixer-core');
 
 module.exports = {
     context: Path.join(__dirname, "js"),
@@ -11,8 +12,8 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader") },
-            { test: /\.less$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader") },
+            { test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader!postcss-loader") },
+            { test: /\.less$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader!postcss-loader!less-loader") },
 			{ test: /\.jsx?$/, exclude: /node_modules/, loader: "babel-loader"},
             { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff" },
             { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
@@ -21,6 +22,7 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin("[name].css")
     ],
+    postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
     resolve: {
         root: __dirname,
         extensions: ["", ".webpack.js", ".web.js", ".js", ".less", ".jsx"]
@@ -31,5 +33,5 @@ module.exports = {
         hot: true
         //,inline: true
     }
-	
+
 };
